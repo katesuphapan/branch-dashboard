@@ -2,7 +2,7 @@ const ActionType = {
     SHOW_BRANCH_DATA: "SHOW_BRANCH_DATA"
 }
 
-const showBeanchData = branchId => {
+const showBranchData = branchId => {
     return {
         type: ActionType.SHOW_BRANCH_DATA,
         payload: branchId
@@ -12,5 +12,5 @@ const showBeanchData = branchId => {
 export default {
 
     ActionType,
-    showBeanchData
+    showBranchData
 }

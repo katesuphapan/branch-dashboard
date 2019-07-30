@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Card } from "antd";
-import  Chart  from "react-google-charts";
+import Chart from "react-google-charts";
 
-export default class StatChart extends Component {
+import { connect } from "react-redux";
+
+class StatChart extends Component {
     render() {
         return (
             <div>
@@ -17,21 +19,7 @@ export default class StatChart extends Component {
                         height={'400px'}
                         chartType="Line"
                         loader={<div>Loading Chart</div>}
-                        data={[
-                            ['x', 'dogs'],
-                            [0, 0],
-                            [1, 10],
-                            [2, 23],
-                            [3, 17],
-                            [4, 18],
-                            [5, 9],
-                            [6, 11],
-                            [7, 27],
-                            [8, 33],
-                            [9, 40],
-                            [10, 32],
-                            [11, 35],
-                        ]}
+                        data={this.props.chartData}
                         options={{
                             hAxis: {
                                 title: 'Time',
@@ -47,3 +35,14 @@ export default class StatChart extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    chartData: state.branchDataInChart
+})
+
+const mapDispatchToProps = {
+    
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(StatChart)

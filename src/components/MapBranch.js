@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import GoogleMapReact from "google-map-react"
+import Actions from "../redux/actions";
 
 import { connect } from 'react-redux'
 import { stat } from 'fs';
@@ -17,6 +18,8 @@ class MapBranch extends Component {
 
     markerClick = (marker) => { 
         console.log(`เลือกสาขา ${marker.get('branchId')} ${marker.get('title')}`);
+
+        this.props.showBranchDataInChart(marker.get('branchId'));
         
     }
 
@@ -81,8 +84,10 @@ const mapStateToProps = (state) => {
 
 }
 
-const mapDispatchToProps = {
-
+const mapDispatchToProps = dispatch => {
+    return{ 
+        showBranchDataInChart: (branchId) => dispatch(Actions.showBranchData(branchId))
+    }
 }
 
 
