@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import GoogleMapReact from "google-map-react"
+import BranchModel from "../models/branchModel";
 
 export default class MapBranch extends Component {
 
@@ -12,12 +13,14 @@ export default class MapBranch extends Component {
         zoom: 15
     };
 
-    handleApiLoaded(map, maps) { 
+    handleApiLoaded(map, maps) {
 
-        let marker = new maps.Marker({
-            position: this.props.center,
-            map,
-            title: 'Kerry'
+        BranchModel.branches.forEach(branch => {
+            new maps.Marker({
+                position: branch.position,
+                map,
+                title: branch.name
+            })
         });
     }
 
@@ -39,8 +42,8 @@ export default class MapBranch extends Component {
                     yesIWantToUseGoogleMapApiInternals
                     onGoogleApiLoaded={({ map, maps }) => this.handleApiLoaded(map, maps)}
                 >
-                    
-                    
+
+
 
                 </GoogleMapReact>
             </div>
