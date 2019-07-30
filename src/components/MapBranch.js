@@ -15,17 +15,26 @@ class MapBranch extends Component {
         zoom: 15
     };
 
+    markerClick = (marker) => { 
+        console.log(`เลือกสาขา ${marker.get('branchId')} ${marker.get('title')}`);
+        
+    }
+
     handleApiLoaded(map, maps) {
 
         let bounds = new maps.LatLngBounds();
         let branches = this.props.branches;
 
         branches.forEach(branch => {
-            new maps.Marker({
+            let marker = new maps.Marker({
                 position: branch.position,
                 map,
-                title: branch.name
+                title: branch.name,
+                branchId: branch.id
             })
+
+            marker.addListener('click', () => { this.markerClick(marker) });
+
             bounds.extend(branch.position);
         })
 
@@ -34,7 +43,7 @@ class MapBranch extends Component {
 
     render() {
         return (
-            
+
             <div style={
                 {
                     height: '100vh',
@@ -42,7 +51,7 @@ class MapBranch extends Component {
                 }
 
             }>
-                
+
                 <GoogleMapReact
                     bootstrapURLKeys={{
                         key: 'AIzaSyBDqlW1EIlePcA48oLVV_kYQJXm9dQ75uw'
@@ -63,17 +72,17 @@ class MapBranch extends Component {
 
 //snipped --> reduxmap
 const mapStateToProps = (state) => {
-console.log(state);
+    console.log(state);
 
     return {
         label: state.welcomeText,
         branches: state.branches
     }
-    
+
 }
 
 const mapDispatchToProps = {
-    
+
 }
 
 
