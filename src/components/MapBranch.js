@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import GoogleMapReact from "google-map-react"
-import BranchModel from "../models/branchModel";
 
-export default class MapBranch extends Component {
+import { connect } from 'react-redux'
+import { stat } from 'fs';
+
+class MapBranch extends Component {
 
     static defaultProps = {
         // Kerry Siam Seaport Location
@@ -16,8 +18,9 @@ export default class MapBranch extends Component {
     handleApiLoaded(map, maps) {
 
         let bounds = new maps.LatLngBounds();
+        let branches = this.props.branches;
 
-        BranchModel.branches.forEach(branch => {
+        branches.forEach(branch => {
             new maps.Marker({
                 position: branch.position,
                 map,
@@ -31,6 +34,7 @@ export default class MapBranch extends Component {
 
     render() {
         return (
+            
             <div style={
                 {
                     height: '100vh',
@@ -38,6 +42,7 @@ export default class MapBranch extends Component {
                 }
 
             }>
+                
                 <GoogleMapReact
                     bootstrapURLKeys={{
                         key: 'AIzaSyBDqlW1EIlePcA48oLVV_kYQJXm9dQ75uw'
@@ -55,3 +60,21 @@ export default class MapBranch extends Component {
         )
     }
 }
+
+//snipped --> reduxmap
+const mapStateToProps = (state) => {
+console.log(state);
+
+    return {
+        label: state.welcomeText,
+        branches: state.branches
+    }
+    
+}
+
+const mapDispatchToProps = {
+    
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapBranch)
