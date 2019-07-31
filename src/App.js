@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import { connect } from 'react-redux';
-import actions from './redux/actions';
+import { Route, Switch } from "react-router-dom";
 
 import HeaderBar from './components/HeaderBar';
 import MapBranch from './components/MapBranch';
 import StatChart from './components/StatChart';
 
 import { Layout, Menu, Row, Col, message } from 'antd';
+import actions from './redux/actions';
+import { Dashboard } from './pages/Dashboard';
+import { LoginPage } from './pages/LoginPage';
+
 const { Header, Content, Footer } = Layout;
 
 class App extends Component {
@@ -19,6 +22,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
+
     if (this.props.notification.isShow) {
       if (this.props.notification.isError) {
         message.error(this.props.notification.message);
@@ -26,6 +30,7 @@ class App extends Component {
         message.success(this.props.notification.message);
       }
     }
+
   }
 
   render() {
@@ -43,26 +48,30 @@ class App extends Component {
                 padding: 24,
                 minHeight: 280
               }}>
-              <Row gutter={16}>
-                <Col span={12}><MapBranch /></Col>
-                <Col span={12}><StatChart /></Col>
-              </Row>
-
+              <Switch>
+                <Route path="/dashboard" exact component={Dashboard}/>
+                <Route path="/" exact component={LoginPage} />
+              </Switch>
             </div>
           </Content>
           <Footer style={{
             textAlign: 'center'
           }}>React Redux Workshop ©2012-2019 Created by Nextflow.in.th</Footer>
-        </Layout>,
+        </Layout>
       </div>
 
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  notification: state.app.notification
-})
+const mapStateToProps = (state) => {
+
+  console.log(state)
+  return {
+    notification: state.dashboard.app.notification
+  }
+
+}
 
 const mapDispatchToProps = dispatch => {
   return {

@@ -78,8 +78,7 @@ const mapStateToProps = (state) => {
     console.log(state);
 
     return {
-        label: state.welcomeText,
-        branches: state.branches
+        branches: state.dashboard.branches
     }
 
 }

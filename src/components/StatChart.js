@@ -37,7 +37,7 @@ class StatChart extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    chartData: state.branchDataInChart
+    chartData: state.dashboard.branchDataInChart
 })
 
 const mapDispatchToProps = {
