@@ -2,9 +2,13 @@ import Actions from "./actions";
 import branchModel from "../models/branchModel";
 
 const initialState = {
-    welcomeText: 'สวัสดี',
-    branches: branchModel.branches,
-    branchDataInChart: [['Month', 'Amount'], ['', 0]]
+    branches: [],
+    branchDataInChart: [['Month', 'Amount'], ['', 0]],
+    app: {
+        notificaation: {
+
+        }
+    }
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -23,7 +27,7 @@ export default (state = initialState, { type, payload }) => {
 
                 let chartDatas = selectingBranch.chartData.datas;
 
-                if (chartDatas != undefined && chartDatas.length > 0) {
+                if (chartDatas !== undefined && chartDatas.length > 0) {
                     //json data to array data
                     chartDatas.forEach(data => {
                         finalChartData.push([data.month, data.amount]);
@@ -47,6 +51,36 @@ export default (state = initialState, { type, payload }) => {
         }
 
 
+        case Actions.ActionType.REQUEST_INIT_DATA_SUCCESS: {
+            console.log('request success');
+            return {
+                ...state,
+                branches: payload.branches,
+                app: {
+                    notification: {
+                        message: 'Data Loaded',
+                        isError: false,
+                        isShow: true
+                    }
+                }
+            }
+
+        }
+
+        case Actions.ActionType.REQUEST_INIT_DATA_FAILED: {
+            console.log('request failed');
+            return {
+                ...state,
+                app: {
+                    notification: {
+                        message: payload.message,
+                        isError: true,
+                        isShow: false
+                    }
+                }
+            }
+
+        }
         default:
             return state
     }

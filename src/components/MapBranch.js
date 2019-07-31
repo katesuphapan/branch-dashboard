@@ -3,7 +3,7 @@ import GoogleMapReact from "google-map-react"
 import Actions from "../redux/actions";
 
 import { connect } from 'react-redux'
-import { stat } from 'fs';
+//import { stat } from 'fs';
 
 class MapBranch extends Component {
 

@@ -1,25 +1,48 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Provider } from "react-redux";
-import configureStore from "./redux/store";
+
+import { connect } from 'react-redux';
+import actions from './redux/actions';
 
 import HeaderBar from './components/HeaderBar';
-import { Layout, Menu, Row, Col } from 'antd';
 import MapBranch from './components/MapBranch';
 import StatChart from './components/StatChart';
+
+import { Layout, Menu, Row, Col, message } from 'antd';
 const { Header, Content, Footer } = Layout;
 
-const store = configureStore();
+class App extends Component {
 
-function App() {
-  return (
-    <Provider store={store}>
+  componentDidMount() {
+    this.props.initData();
+  }
+
+  componentDidUpdate() {
+    if (this.props.notification.isShow) {
+      if (this.props.notification.isError) {
+        message.error(this.props.notification.message);
+      } else {
+        message.success(this.props.notification.message);
+      }
+    }
+  }
+
+  render() {
+    return (
+
       <div>
         <Layout className="layout">
           <HeaderBar />
-          <Content style={{ padding: '0 50px' }}>
-            <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+          <Content style={{
+            padding: '0 50px'
+          }}>
+            <div
+              style={{
+                background: '#fff',
+                padding: 24,
+                minHeight: 280
+              }}>
               <Row gutter={16}>
                 <Col span={12}><MapBranch /></Col>
                 <Col span={12}><StatChart /></Col>
@@ -27,11 +50,25 @@ function App() {
 
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-        </Layout>
+          <Footer style={{
+            textAlign: 'center'
+          }}>React Redux Workshop ©2012-2019 Created by Nextflow.in.th</Footer>
+        </Layout>,
       </div>
-    </Provider>
-  );
+
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  notification: state.app.notification
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    initData: () => dispatch(actions.requestInitData())
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
